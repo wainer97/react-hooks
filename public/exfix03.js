@@ -1,0 +1,83 @@
+import * as React from 'react'
+    /* Converta a função abaixo em um componente. */
+    function inputSet(id, labelText, onInputChange) {
+      return (
+        <div>
+          <label htmlFor={id}>{labelText}</label>
+          <input id={id} type="number" onChange={onInputChange} />
+        </div>
+      )
+    }
+
+    /* Converta esta função em um componente */
+    function result(imc, classif) {
+      return (
+        <>
+          <div className="result">IMC: {imc}</div>
+          <div className="result">{classif}</div>
+        </>
+      )     
+    }
+
+    function Form() {
+
+      /* Crie as seguintes variáveis de estado:
+         * peso
+         * altura
+         * classif
+         * imc
+      */
+
+      function handleInputChange(event) {
+        /* Faça as modificações necessárias na manipulação das variáveis de estado
+           nas linhas abaixo. */
+        if(event.target.id === 'peso') estadoPeso = event.target.value
+        else if(event.target.id === 'altura') estadoAltura = event.target.value
+      }
+
+      /* Use o código a seguir dentro da função seguinte em um useEffect() tendo
+        como dependências as variáveis de estado estadoPeso e estadoAltura.
+        Faça as modificações necessárias na manipulação das variáveis de estado
+        para que o código funcione. 
+      */
+      
+      // Início do código para useEffect()
+        if(isNaN(estadoPeso) || isNaN(estadoAltura)) estadoImc = '---'
+        else estadoImc = estadoPeso / estadoAltura ** 2
+
+        if(estadoImc < 18.5) 
+          estadoClassif = 'Abaixo do peso'
+        else if(estadoImc > 18.5 && estadoImc < 25)
+          estadoClassif = 'Peso Normal'
+        else if(estadoImc >= 25 && estadoImc < 30)
+          estadoClassif = 'Sobrepeso'
+        else if(estadoImc >= 30 && estadoImc < 35)
+          estadoClassif = 'Obesidade Grau I'
+        else if(estadoImc >= 35 && estadoImc < 40)
+          estadoClassif = 'Obesidade Grau II'
+        else if(estadoImc >= 40)
+          estadoClassif = 'Obesidade Grau III ou Mórbida'
+        else
+          estadoClassif = ''
+      // Fim do código para useEffect()
+
+      return (
+        <>
+        <h1>Cálculo do IMC</h1>
+        <form>
+          { /* Substitua as chamadas de função abaixo pelos componentes correspondentes */ }
+          { inputSet('peso', 'Peso (kg):', handleInputChange)}
+          { inputSet('altura', 'Altura (m):', handleInputChange)}
+          { result(estadoImc, estadoClassif)}
+        </form>
+        </>
+      )
+    }
+
+    ReactDOM.render(<Form />, document.getElementById('root'))
+
+function App() {
+
+}
+
+export default App
